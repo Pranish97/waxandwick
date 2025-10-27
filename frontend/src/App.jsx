@@ -13,17 +13,37 @@ import HomePage from "./pages/user/home";
 import ProductPage from "./pages/user/products";
 import AboutPage from "./pages/user/about";
 import ContactPage from "./pages/user/contact";
+import CheckAuth from "./components/common/checkAuth";
 
 const App = () => {
+  const isAuthenticated = false;
+  const user = {
+    name:"ram",
+    role: "Admin"
+  };
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
-        <Route path="/auth" element={<AuthLayout />}>
+        <Route
+          path="/auth"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <AuthLayout />
+            </CheckAuth>
+          }
+        >
           <Route path="login" element={<AuthLogin />} />
           <Route path="register" element={<AuthRegister />} />
         </Route>
 
-        <Route path="/admin" element={<AdminLayout />}>
+        <Route
+          path="/admin"
+          element={
+            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
+              <AdminLayout />
+            </CheckAuth>
+          }
+        >
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
           <Route path="orders" element={<AdminOrders />} />
