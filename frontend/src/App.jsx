@@ -17,10 +17,7 @@ import CheckAuth from "./components/common/checkAuth";
 
 const App = () => {
   const isAuthenticated = false;
-  const user = {
-    name:"ram",
-    role: "Admin"
-  };
+  const user = null
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
