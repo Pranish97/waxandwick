@@ -109,7 +109,7 @@ const CommonForm = ({
     <form onSubmit={onSubmit} className="font-mons">
       <div className="flex flex-col gap-3">
         {formControls.map((controlItem) => (
-          <div key={controlItem.className} className="w-full grid gap-2">
+          <div key={controlItem.name} className="w-full grid gap-2">
             <Label className="mb-1">{controlItem.label}</Label>
             {renderInputByType(controlItem)}
           </div>
