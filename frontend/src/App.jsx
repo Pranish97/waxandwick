@@ -14,10 +14,20 @@ import ProductPage from "./pages/user/products";
 import AboutPage from "./pages/user/about";
 import ContactPage from "./pages/user/contact";
 import CheckAuth from "./components/common/checkAuth";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { checkAuth } from "./store/authSlice";
+import LoadingPage from "./pages/loading/loading";
 
 const App = () => {
-  const {isAuthenticated, user} = useSelector((state) => state.auth )
+  const {isAuthenticated, user, isLoading} = useSelector((state) => state.auth );
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(checkAuth())
+  },[dispatch])
+
+  if(isLoading) return <LoadingPage />
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
@@ -47,7 +57,9 @@ const App = () => {
           <Route path="users" element={<AdminUsers />} />
         </Route>
 
-        <Route path="/" element={<UserLayout />}>
+        <Route path="/" element={<CheckAuth>
+          <UserLayout />
+        </CheckAuth>}>
           <Route index element={<HomePage />} />
           <Route path="products" element={<ProductPage />} />
           <Route path="about" element={<AboutPage />} />

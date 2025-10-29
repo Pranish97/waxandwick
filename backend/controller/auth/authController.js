@@ -77,7 +77,7 @@ const loginUser = async (req, res) => {
       { expiresIn: "30m" }
     );
 
-    res.cookie("token", token, { httpOnlt: true, sexure: false }).json({
+    res.cookie("token", token, { httpOnly: true, sexure: false }).json({
       message: "Login Successfully!",
       success: true,
       error: false,
@@ -96,4 +96,35 @@ const loginUser = async (req, res) => {
   }
 };
 
-module.exports = { regsiterUser, loginUser };
+const logoutUser = async (req, res) => {
+  res.clearCookie("token").json({
+    message: "logout Successfully!",
+    success: true,
+    error: false,
+  });
+};
+
+const authMiddleware = async (req, res, next) => {
+  const token = req.cookies.token;
+
+  if (!token)
+    return res.status(401).json({
+      success: false,
+      message: "Unauthorized User",
+      error: false,
+    });
+
+  try {
+    const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
+    req.user = decoded;
+    next();
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: "Unauthorized User",
+      error: false,
+    });
+  }
+};
+
+module.exports = { regsiterUser, loginUser, logoutUser, authMiddleware };
