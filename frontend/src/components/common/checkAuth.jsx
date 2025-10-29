@@ -8,7 +8,8 @@ const CheckAuth = ({ isAuthenticated, user, children }) => {
     !isAuthenticated &&
     !(
       location.pathname.includes("/login") ||
-      location.pathname.includes("/register")
+      location.pathname.includes("/register") ||
+      location.pathname.includes("/")
     )
   ) {
     return <Navigate to={"/auth/login"} />;
@@ -25,8 +26,12 @@ const CheckAuth = ({ isAuthenticated, user, children }) => {
     }
   }
 
-  if(isAuthenticated && user?.role !== "Admin" && location.pathname.includes("admin")){
-    return <Navigate  to={"/"}/>
+  if (
+    isAuthenticated &&
+    user?.role !== "Admin" &&
+    location.pathname.includes("admin")
+  ) {
+    return <Navigate to={"/"} />;
   }
   return <>{children}</>;
 };
