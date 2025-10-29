@@ -14,10 +14,10 @@ import ProductPage from "./pages/user/products";
 import AboutPage from "./pages/user/about";
 import ContactPage from "./pages/user/contact";
 import CheckAuth from "./components/common/checkAuth";
+import { useSelector } from "react-redux";
 
 const App = () => {
-  const isAuthenticated = false;
-  const user = null
+  const {isAuthenticated, user} = useSelector((state) => state.auth )
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
