@@ -1,9 +1,107 @@
-import React from 'react'
+import React, { Fragment, useEffect, useState } from "react";
+import { Button } from "../../components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+} from "../../components/ui/sheet";
+import CommonForm from "../../components/common/form";
+import { productFormControls } from "../../config";
+import ProductImageUpload from "../../components/admin/imageUpload";
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct, getAllProducts } from "../../store/adminSlice/productSlice";
+import { toast } from "react-toastify";
 
+const initialState = {
+  image: null,
+  productName: "",
+  price: "",
+  discountPrice: "",
+  description: "",
+  quantity: 1,
+  inStock: true,
+};
 const AdminProducts = () => {
-  return (
-    <div>products</div>
-  )
-}
+  const [formData, setFormData] = useState(initialState);
+  const [openProductAddDialog, setOpenProductAddDialog] = useState(false);
+  const [imageFile, setImageFile] = useState(null);
+  const [imageUrl, setImageUrl] = useState("");
+  const [imageLoadingState, setImageLoadingState] = useState(true)
+  const dispatch = useDispatch()
+  const {productList} = useSelector((state) => state.adminProduct)
 
-export default AdminProducts
+
+  function onSubmit(e) {
+    e.preventDefault();
+
+    dispatch(addProduct({
+      ...formData,
+      image: imageUrl
+    })).then((data) => {
+      if(data?.payload?.success){
+        toast.success(data.payload.message)
+        dispatch(getAllProducts())
+        setOpenProductAddDialog(false)
+        setImageFile(null)
+        setFormData(initialState)
+      }else{
+        toast.error(data.payload.message)
+      }
+    })
+  }
+
+
+  console.log(formData,"formdata")
+
+  useEffect(() => {
+    dispatch(getAllProducts())
+  },[dispatch])
+
+  return (
+    <Fragment>
+      <div className="mb-5 flex w-full justify-end">
+        <Button
+          onClick={() => setOpenProductAddDialog(true)}
+          className="bg-pink-500 hover:bg-pink-600 cursor-pointer"
+        >
+          Add New Product
+        </Button>
+      </div>
+
+      <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4"></div>
+
+      <Sheet
+        open={openProductAddDialog}
+        onOpenChange={() => setOpenProductAddDialog(false)}
+      >
+        <SheetContent side="right" className="overflow-auto">
+          <SheetHeader>
+            <SheetTitle>Add New Product</SheetTitle>
+          </SheetHeader>
+
+          <div className="px-6 py-3">
+            <ProductImageUpload
+              imageFile={imageFile}
+              setImageFile={setImageFile}
+              imageUrl={imageUrl}
+              setImageUrl={setImageUrl}
+              imageLoadingState={imageLoadingState}
+              setImageLoadingState={setImageLoadingState}
+            />
+            <CommonForm
+              formControls={productFormControls}
+              formData={formData}
+              setFormData={setFormData}
+              buttonText={"Add Product"}
+              onSubmit={onSubmit}
+              isDisable = {imageLoadingState}
+            />
+          </div>
+        </SheetContent>
+      </Sheet>
+    </Fragment>
+  );
+};
+
+export default AdminProducts;

@@ -20,14 +20,14 @@ import { checkAuth } from "./store/authSlice";
 import LoadingPage from "./pages/loading/loading";
 
 const App = () => {
-  const {isAuthenticated, user, isLoading} = useSelector((state) => state.auth );
+  const { isAuthenticated, user, isLoading } = useSelector((state) => state.auth);
   const dispatch = useDispatch()
 
   useEffect(() => {
     dispatch(checkAuth())
-  },[dispatch])
+  }, [dispatch])
 
-  if(isLoading) return <LoadingPage />
+  if (isLoading) return <LoadingPage />
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
@@ -57,10 +57,10 @@ const App = () => {
           <Route path="users" element={<AdminUsers />} />
         </Route>
 
-        <Route path="/" element={<CheckAuth>
+        <Route path="/" element={<CheckAuth isAuthenticated={isAuthenticated} user={user}>
           <UserLayout />
         </CheckAuth>}>
-          <Route index element={<HomePage />} />
+          <Route path="home" element={<HomePage />} />
           <Route path="products" element={<ProductPage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="contact" element={<ContactPage />} />

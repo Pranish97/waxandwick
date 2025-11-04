@@ -10,6 +10,8 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
+import { Switch } from "../ui/switch";
+import { QuantityInput } from "../admin/quantityInput";
 
 const CommonForm = ({
   formControls,
@@ -17,6 +19,7 @@ const CommonForm = ({
   setFormData,
   onSubmit,
   buttonText,
+  isDisable
 }) => {
   function renderInputByType(getControlItem) {
     let element = null;
@@ -53,7 +56,7 @@ const CommonForm = ({
             value={value}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={getControlItem.placeholder} />
+              <SelectValue placeholder={getControlItem.label} />
             </SelectTrigger>
             <SelectContent>
               {getControlItem.options && getControlItem.options.length > 0
@@ -79,6 +82,30 @@ const CommonForm = ({
               setFormData({
                 ...formData,
                 [getControlItem.name]: e.target.value,
+              })
+            }
+          />
+        );
+        break;
+
+      case "quantity":
+        element = (
+          <QuantityInput
+            onChange={(value) => setFormData({ ...formData, [getControlItem.name]: value })}
+          />
+        );
+        break;
+
+      case "switch":
+        element = (
+          <Switch
+            className="data-[state=checked]:bg-pink-500 data-[state=unchecked]:bg-gray-400 mb-5"
+            id={getControlItem.name}
+            checked={!!value}
+            onCheckedChange={(checked) =>
+              setFormData({
+                ...formData,
+                [getControlItem.name]: checked,
               })
             }
           />
@@ -115,7 +142,11 @@ const CommonForm = ({
           </div>
         ))}
       </div>
-      <Button type="submit" className="mt-2 w-full bg-pink-500 hover:bg-pink-400 cursor-pointer">
+      <Button
+      disabled={isDisable}
+        type="submit"
+        className="mt-2 w-full bg-pink-500 hover:bg-pink-400 cursor-pointer"
+      >
         {buttonText || "Submit"}
       </Button>
     </form>

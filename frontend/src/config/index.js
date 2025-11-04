@@ -1,5 +1,3 @@
-import { LayoutDashboard, Package, ShoppingCart, Users } from "lucide-react";
-
 export const registerFormControls = [
   {
     name: "firstName",
@@ -52,5 +50,48 @@ export const loginFormControls = [
     placeholder: "Enter Your Password",
     componentType: "input",
     type: "password",
+  },
+];
+
+export const productFormControls = [
+  {
+    name: "productName",
+    label: "Product Name",
+    placeholder: "Enter product name",
+    componentType: "input",
+    type: "text",
+  },
+  {
+    name: "price",
+    label: "Price",
+    placeholder: "Enter product price",
+    componentType: "input",
+    type: "number",
+  },
+  {
+    name: "discountPrice",
+    label: "Discount Price (%)",
+    placeholder: "Enter discount Price",
+    componentType: "input",
+    type: "number",
+  },
+  {
+    name: "description",
+    label: "Description",
+    placeholder: "Enter product description",
+    componentType: "textarea",
+    type: "text",
+  },
+  {
+    name: "quantity",
+    label: "Quantity",
+    componentType: "quantity",
+    type: "text",
+  },
+  {
+    name: "inStock",
+    label: "In Stock",
+    componentType: "switch",
+    defaultValue: true,
   },
 ];
