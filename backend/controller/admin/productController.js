@@ -28,7 +28,7 @@ const addProduct = async (req, res) => {
       productName,
       image,
       price,
-      discount,
+      discountPrice,
       description,
       quantity,
       inStock,
@@ -38,7 +38,7 @@ const addProduct = async (req, res) => {
       productName,
       image,
       price,
-      discount,
+      discountPrice,
       description,
       quantity,
       inStock,
@@ -75,7 +75,7 @@ const editProduct = async (req, res) => {
       });
     }
 
-    product.produtName = productName || product.produtName;
+    product.productName = productName || product.productName;
     product.price = price || product.price;
     product.discountPrice = discountPrice || product.discountPrice;
     product.description = description || product.description;

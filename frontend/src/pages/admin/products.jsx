@@ -12,6 +12,7 @@ import ProductImageUpload from "../../components/admin/imageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import { addProduct, getAllProducts } from "../../store/adminSlice/productSlice";
 import { toast } from "react-toastify";
+import AdminProductTile from "../../components/admin/productTile";
 
 const initialState = {
   image: null,
@@ -69,7 +70,9 @@ const AdminProducts = () => {
         </Button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4"></div>
+      <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4">
+        {productList.map((product) => <AdminProductTile product={product}/> )}
+      </div>
 
       <Sheet
         open={openProductAddDialog}
