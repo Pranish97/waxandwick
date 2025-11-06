@@ -31,6 +31,17 @@ export const loginUser = createAsyncThunk("/api/login", async (formData) => {
   return response.data;
 });
 
+export const logoutUser = createAsyncThunk("/api/logout", async () => {
+  const response = await axios.post(
+    "http://localhost:5000/api/auth/logout",
+    {},
+    {
+      withCredentials: true,
+    }
+  );
+  return response.data;
+});
+
 export const checkAuth = createAsyncThunk("/api/checkAuth", async () => {
   const response = await axios.get(
     "http://localhost:5000/api/auth/check-auth",
@@ -73,6 +84,19 @@ const authSlice = createSlice({
         state.isAuthenticated = action.payload.success;
       })
       .addCase(loginUser.rejected, (state) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+      })
+      .addCase(logoutUser.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(logoutUser.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.user = null;
+        state.isAuthenticated = false;
+      })
+      .addCase(logoutUser.rejected, (state) => {
         state.isLoading = false;
         state.user = null;
         state.isAuthenticated = false;

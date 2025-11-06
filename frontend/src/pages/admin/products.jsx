@@ -12,6 +12,7 @@ import ProductImageUpload from "../../components/admin/imageUpload";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addProduct,
+  deleteProduct,
   editProduct,
   getAllProducts,
 } from "../../store/adminSlice/productSlice";
@@ -24,7 +25,7 @@ const initialState = {
   price: "",
   discountPrice: "",
   description: "",
-  quantity:0,
+  quantity: 0,
   inStock: true,
 };
 const AdminProducts = () => {
@@ -49,7 +50,7 @@ const AdminProducts = () => {
               dispatch(getAllProducts());
               setCurrentEditedId(null);
               setOpenProductAddDialog(false);
-              setFormData(initialState)
+              setFormData(initialState);
             } else {
               toast.error(data.payload.message);
             }
@@ -73,7 +74,22 @@ const AdminProducts = () => {
         });
   }
 
-  console.log(formData, "formdata");
+  function handleDelete(getCurrentProductId) {
+    dispatch(deleteProduct(getCurrentProductId)).then((data) => {
+      if (data?.payload?.success) {
+        toast.success(data.payload.message);
+        dispatch(getAllProducts());
+      } else {
+        toast.error(data.payload.message);
+      }
+    });
+  }
+
+  function isFormValid() {
+    return Object.keys(formData)
+      .map((key) => formData[key] !== "")
+      .every((item) => item);
+  }
 
   useEffect(() => {
     dispatch(getAllProducts());
@@ -98,6 +114,7 @@ const AdminProducts = () => {
             setOpenProductAddDialog={setOpenProductAddDialog}
             setCurrentEditedId={setCurrentEditedId}
             product={product}
+            handleDelete={handleDelete}
           />
         ))}
       </div>
@@ -133,7 +150,7 @@ const AdminProducts = () => {
               setFormData={setFormData}
               buttonText={currentEditedId ? "Update Product" : "Add Product"}
               onSubmit={onSubmit}
-              isDisable={currentEditedId ? "" : imageLoadingState}
+              isDisable={!isFormValid()}
             />
           </div>
         </SheetContent>
