@@ -91,6 +91,7 @@ const CommonForm = ({
       case "quantity":
         element = (
           <QuantityInput
+          value={formData[getControlItem.name] ?? ""}
             onChange={(value) => setFormData({ ...formData, [getControlItem.name]: value })}
           />
         );

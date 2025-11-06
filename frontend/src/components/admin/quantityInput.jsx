@@ -1,14 +1,18 @@
 import { Plus, Minus } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export function QuantityInput({ value = 1, onChange }) {
+export function QuantityInput({ value, onChange }) {
+  console.log(value, "value")
   const [qty, setQty] = useState(value);
 
   const updateQty = (newQty) => {
-    const validQty = newQty < 1 ? 1 : newQty;
+    const validQty = newQty < 0 ? 0 : newQty;
     setQty(validQty);
     onChange && onChange(validQty);
   };
+
+ 
+
 
   return (
     <div className="flex items-center border rounded-lg overflow-hidden w-32">
