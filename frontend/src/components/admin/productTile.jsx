@@ -3,7 +3,7 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
-const AdminProductTile = ({ product ,setFormData, setOpenProductAddDialog, setCurrentEditedId ,currentEditedId }) => {
+const AdminProductTile = ({ product ,setFormData, setOpenProductAddDialog, setCurrentEditedId ,handleDelete }) => {
   const hasDiscount = product?.discountPrice > 0;
 
   return (
@@ -57,7 +57,7 @@ const AdminProductTile = ({ product ,setFormData, setOpenProductAddDialog, setCu
           setCurrentEditedId(product?._id)
           setFormData(product)
         }} className="bg-pink-500 hover:bg-pink-600 cursor-pointer">Edit</Button>
-        <Button  className="bg-red-500 hover:bg-red-600 cursor-pointer">Delete</Button>
+        <Button onClick={() => handleDelete(product?._id)}  className="bg-red-500 hover:bg-red-600 cursor-pointer">Delete</Button>
       </CardFooter>
     </Card>
   );

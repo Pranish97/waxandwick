@@ -1,3 +1,4 @@
+const { verify } = require("jsonwebtoken");
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
@@ -25,6 +26,10 @@ const userSchema = new mongoose.Schema({
   role: {
     type: String,
     default: "User",
+  },
+  verify: {
+    type: Boolean,
+    default: true,
   },
 });
 
