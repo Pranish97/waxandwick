@@ -12,6 +12,7 @@ const ProductImageUpload = ({
   setImageUrl,
   imageLoadingState,
   setImageLoadingState,
+  currentEditedId
 }) => {
   const inputRef = useRef(null);
 
@@ -67,6 +68,7 @@ const ProductImageUpload = ({
         className="border-3 border-dashed rounded-lg p-4 "
       >
         <Input
+        disabled={currentEditedId}
           id="image-upload"
           type="file"
           className="hidden mb-5"

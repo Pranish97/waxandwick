@@ -1,10 +1,9 @@
 import React from "react";
 import { Card, CardContent, CardFooter } from "../ui/card";
 import { Badge } from "../ui/badge";
-import { ShoppingCart } from "lucide-react";
 import { Button } from "../ui/button";
 
-const AdminProductTile = ({ product }) => {
+const AdminProductTile = ({ product ,setFormData, setOpenProductAddDialog, setCurrentEditedId ,currentEditedId }) => {
   const hasDiscount = product?.discountPrice > 0;
 
   return (
@@ -30,7 +29,8 @@ const AdminProductTile = ({ product }) => {
           {product?.productName}
         </h2>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center gap-4 justify-between">
+          <div className="flex items-center gap-4">
           <span
             className={`${
               hasDiscount ? "line-through text-gray-400" : "text-gray-800"
@@ -43,12 +43,21 @@ const AdminProductTile = ({ product }) => {
               ${product?.discountPrice}
             </span>
           )}
+          </div>
+
+          <div className="flex items-center">
+            <p className="font-semibold">Quantity: <span className="text-pink-500 font-bold">{product?.quantity}</span></p>
+          </div>
         </div>
       </CardContent>
 
       <CardFooter className=" px-3 flex items-center justify-between">
-        <Button className="bg-pink-500 hover:bg-pink-600 cursor-pointer">Edit</Button>
-        <Button className="bg-red-500 hover:bg-red-600 cursor-pointer">Delete</Button>
+        <Button onClick={() => {
+          setOpenProductAddDialog(true)
+          setCurrentEditedId(product?._id)
+          setFormData(product)
+        }} className="bg-pink-500 hover:bg-pink-600 cursor-pointer">Edit</Button>
+        <Button  className="bg-red-500 hover:bg-red-600 cursor-pointer">Delete</Button>
       </CardFooter>
     </Card>
   );

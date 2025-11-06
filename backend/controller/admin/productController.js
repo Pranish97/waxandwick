@@ -65,7 +65,16 @@ const editProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const product = await productModel.findByIdAndUpdate(id);
+    const {
+      productName,
+      price,
+      discountPrice,
+      description,
+      quantity,
+      inStock,
+    } = req.body;
+
+    const product = await productModel.findById(id);
 
     if (!product) {
       return res.json({
@@ -79,13 +88,13 @@ const editProduct = async (req, res) => {
     product.price = price || product.price;
     product.discountPrice = discountPrice || product.discountPrice;
     product.description = description || product.description;
-    product.quantity = quantity || product.quantity;
-    product.inStock = inStock || product.inStock;
+    product.quantity = quantity !== undefined ? quantity : product.quantity;
+    product.inStock = inStock !== undefined ? inStock : product.inStock;
 
     await product.save();
 
     return res.status(200).json({
-      message: "Product Updated Successfullyt!",
+      message: "Product Updated Successfully!",
       data: product,
       success: true,
       error: false,
