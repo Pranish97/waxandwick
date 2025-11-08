@@ -123,6 +123,14 @@
 }
 
 
+@layer utilities {
+  .font-merri {
+    font-family: "Merriweather", serif;
+  }
+}
+
+
+
 
 
 @layer base {
