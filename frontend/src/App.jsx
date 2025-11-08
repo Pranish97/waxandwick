@@ -27,6 +27,8 @@ const App = () => {
     dispatch(checkAuth())
   }, [dispatch])
 
+  console.log(user,"user")
+
   if (isLoading) return <LoadingPage />
   return (
     <div className="flex flex-col overflow-hidden bg-white">
